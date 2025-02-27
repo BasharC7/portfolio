@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import API_BASE_URL from "../../api/apiConfig";
-
 const projectSlice = createSlice({
   name: "project",
   initialState: {
@@ -89,10 +88,8 @@ export const getAllProjects = () => async (dispatch) => {
   dispatch(projectSlice.actions.getAllProjectsRequest());
   try {
     const response = await axios.get(
-      `${API_BASE_URL}/project/getall`
-//"http://localhost:3000/api/v1/project/getall"
-     // "https://mern-stack-portfolio-backend-code.onrender.com/api/v1/project/getall"
-     ,
+ `${API_BASE_URL}/project/getall`
+      ,
       { withCredentials: true }
     );
     dispatch(
@@ -110,7 +107,9 @@ export const addNewProject = (data) => async (dispatch) => {
   dispatch(projectSlice.actions.addNewProjectRequest());
   try {
     const response = await axios.post(
-      "https://mern-stack-portfolio-backend-code.onrender.com/api/v1/project/add",
+      `${API_BASE_URL}/project/add`
+     // "${API_BASE_URL}/project/add"
+      ,
       data,
       {
         withCredentials: true,
@@ -129,7 +128,9 @@ export const deleteProject = (id) => async (dispatch) => {
   dispatch(projectSlice.actions.deleteProjectRequest());
   try {
     const response = await axios.delete(
-      `https://mern-stack-portfolio-backend-code.onrender.com/api/v1/project/delete/${id}`,
+      `${API_BASE_URL}/project/delete/${id}`
+     // `${API_BASE_URL}/project/delete/${id}`
+      ,
       {
         withCredentials: true,
       }
@@ -146,7 +147,10 @@ export const updateProject = (id, newData) => async (dispatch) => {
   dispatch(projectSlice.actions.updateProjectRequest());
   try {
     const response = await axios.put(
-      `https://mern-stack-portfolio-backend-code.onrender.com/api/v1/project/update/${id}`,
+      `${API_BASE_URL}/project/update/${id}`
+      //`${API_BASE_URL}/project/update/${id}`
+    
+      ,
       newData,
       {
         withCredentials: true,

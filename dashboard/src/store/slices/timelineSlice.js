@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import API_BASE_URL from "../../api/apiConfig";
 const timelineSlice = createSlice({
   name: "timeline",
   initialState: {
@@ -72,7 +72,7 @@ export const getAllTimeline = () => async (dispatch) => {
   dispatch(timelineSlice.actions.getAllTimelineRequest());
   try {
     const response = await axios.get(
-      "https://mern-stack-portfolio-backend-code.onrender.com/api/v1/timeline/getall",
+      `${API_BASE_URL}/timeline/getall`,
       { withCredentials: true }
     );
     dispatch(
@@ -90,7 +90,7 @@ export const addNewTimeline = (data) => async (dispatch) => {
   dispatch(timelineSlice.actions.addNewTimelineRequest());
   try {
     const response = await axios.post(
-      "https://mern-stack-portfolio-backend-code.onrender.com/api/v1/timeline/add",
+      `${API_BASE_URL}/timeline/add`,
       data,
       {
         withCredentials: true,
@@ -111,7 +111,7 @@ export const deleteTimeline = (id) => async (dispatch) => {
   dispatch(timelineSlice.actions.deleteTimelineRequest());
   try {
     const response = await axios.delete(
-      `https://mern-stack-portfolio-backend-code.onrender.com/api/v1/timeline/delete/${id}`,
+      `${API_BASE_URL}/timeline/delete/${id}`,
       {
         withCredentials: true,
       }

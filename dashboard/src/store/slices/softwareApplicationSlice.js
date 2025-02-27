@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import API_BASE_URL from "../../api/apiConfig";
 const softwareApplicationSlice = createSlice({
   name: "softwareApplications",
   initialState: {
@@ -74,7 +74,7 @@ export const getAllSoftwareApplications = () => async (dispatch) => {
   );
   try {
     const response = await axios.get(
-      "https://mern-stack-portfolio-backend-code.onrender.com/api/v1/softwareapplication/getall",
+      `${API_BASE_URL}/softwareapplication/getall`,
       { withCredentials: true }
     );
     dispatch(
@@ -98,7 +98,7 @@ export const addNewSoftwareApplication = (data) => async (dispatch) => {
   );
   try {
     const response = await axios.post(
-      "https://mern-stack-portfolio-backend-code.onrender.com/api/v1/softwareapplication/add",
+      `${API_BASE_URL}/softwareapplication/add`,
       data,
       {
         withCredentials: true,
@@ -126,7 +126,7 @@ export const deleteSoftwareApplication = (id) => async (dispatch) => {
   );
   try {
     const response = await axios.delete(
-      `https://mern-stack-portfolio-backend-code.onrender.com/api/v1/softwareapplication/delete/${id}`,
+      `${API_BASE_URL}/softwareapplication/delete/${id}`,
       {
         withCredentials: true,
       }

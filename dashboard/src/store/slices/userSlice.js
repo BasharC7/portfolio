@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import API_BASE_URL from "../../api/apiConfig"; // Import the API base
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -12,6 +12,24 @@ const userSlice = createSlice({
     isUpdated: false,
   },
   reducers: {
+    registerRequest(state) {
+      state.loading = true;
+      state.isAuthenticated = false;
+      state.user = {};
+      state.error = null;
+    },
+    registerSuccess(state, action) {
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.user = action.payload;
+      state.error = null;
+    },
+    registerFailed(state, action) {
+      state.loading = false;
+      state.isAuthenticated = false;
+      state.user = {};
+      state.error = action.payload;
+    },
     loginRequest(state, action) {
       state.loading = true;
       state.isAuthenticated = false;
@@ -108,14 +126,23 @@ const userSlice = createSlice({
     },
   },
 });
-
+export const register = (userData) => async (dispatch) => {
+  dispatch(userSlice.actions.registerRequest());
+  try {
+    const { data } = await axios.post(`${API_BASE_URL}/user/register`, userData, {
+      withCredentials: true,
+      headers: { "Content-Type": "application/json" },
+    });
+    dispatch(userSlice.actions.registerSuccess(data.user));
+  } catch (error) {
+    dispatch(userSlice.actions.registerFailed(error.response.data.message));
+  }
+};
 export const login = (email, password) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
     const { data } = await axios.post(
-    "  http://localhost:3000/api/v1/user/login"
-     // "https://mern-stack-portfolio-backend-code.onrender.com/api/v1/user/login"
-     ,
+      '${API_BASE_URL}/user/login',
       { email, password },
       { withCredentials: true, headers: { "Content-Type": "application/json" } }
     );
@@ -129,7 +156,7 @@ export const login = (email, password) => async (dispatch) => {
 export const getUser = () => async (dispatch) => {
   dispatch(userSlice.actions.loadUserRequest());
   try {
-    const { data } = await axios.get("https://mern-stack-portfolio-backend-code.onrender.com/api/v1/user/me", {
+    const { data } = await axios.get(`${API_BASE_URL}/user/me`, {
       withCredentials: true,
     });
     dispatch(userSlice.actions.loadUserSuccess(data.user));
@@ -142,7 +169,7 @@ export const getUser = () => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     const { data } = await axios.get(
-      "https://mern-stack-portfolio-backend-code.onrender.com/api/v1/user/logout",
+      `${API_BASE_URL}/user/logout`,
       { withCredentials: true }
     );
     dispatch(userSlice.actions.logoutSuccess(data.message));
@@ -157,7 +184,7 @@ export const updatePassword =
     dispatch(userSlice.actions.updatePasswordRequest());
     try {
       const { data } = await axios.put(
-        "https://mern-stack-portfolio-backend-code.onrender.com/api/v1/user/password/update",
+        `${API_BASE_URL}/user/password/update`,
         { currentPassword, newPassword, confirmNewPassword },
         {
           withCredentials: true,
@@ -177,7 +204,7 @@ export const updateProfile = (data) => async (dispatch) => {
   dispatch(userSlice.actions.updateProfileRequest());
   try {
     const response = await axios.put(
-      "https://mern-stack-portfolio-backend-code.onrender.com/api/v1/user/me/profile/update",
+      `${API_BASE_URL}/user/me/profile/update`,
       data,
       {
         withCredentials: true,
