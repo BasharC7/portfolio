@@ -1,5 +1,4 @@
-import dotenv from "dotenv";
-dotenv.config({ path: "./config.env" });
+
 export const generateToken = (user, message, statusCode, res) => {
   const token = user.generateJsonWebToken();
   res

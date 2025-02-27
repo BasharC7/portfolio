@@ -14,9 +14,10 @@ export const addNewApplication = catchAsyncErrors(async (req, res, next) => {
   if (!name) {
     return next(new ErrorHandler("Please Provide Software's Name!", 400));
   }
+  
   const cloudinaryResponse = await cloudinary.uploader.upload(
     svg.tempFilePath,
-    { folder: "PORTFOLIO SOFTWARE APPLICATION IMAGES" }
+    { folder: "portfolio_software_app_images" }
   );
   if (!cloudinaryResponse || cloudinaryResponse.error) {
     console.error(

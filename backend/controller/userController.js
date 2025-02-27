@@ -38,9 +38,10 @@ export const register = catchAsyncErrors(async (req, res, next) => {
   //   return next(new ErrorHandler("Failed to upload resume to Cloudinary", 500));
   // }
   const {
-   // fullName,
+    name,
     email,
     password,
+    
    // confirmPassword
     // phone,
     // aboutMe,
@@ -53,7 +54,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     // linkedInURL,
   } = req.body;
   const user = await User.create({
-    fullName:req.body.name,
+    fullName:name,
     email,
     password,
     //confirmPassword
