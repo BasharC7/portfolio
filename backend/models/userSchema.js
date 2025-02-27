@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto"
-
+import dotenv from "dotenv";
+dotenv.config({ path: "./config.env" });
 const userSchema = new mongoose.Schema({
   fullName: {
     type: String,
@@ -14,41 +15,41 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    required: [true, "Phone Required!"],
+    required: [false, "Phone Required!"],
   },
   aboutMe: {
     type: String,
-    required: [true, "About Me Section Is Required!"],
+    required: [false, "About Me Section Is Required!"],
   },
   password: {
     type: String,
-    required: [true, "Password Required!"],
+    required: [false, "Password Required!"],
     minLength: [8, "Password Must Contain At Least 8 Characters!"],
     select: false
   },
   avatar: {
     public_id: {
       type: String,
-      required: true,
+      required: false,
     },
     url: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   resume: {
     public_id: {
       type: String,
-      required: true,
+      required: false,
     },
     url: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   portfolioURL: {
     type: String,
-    required: [true, "Portfolio URL Required!"],
+    required: [false, "Portfolio URL Required!"],
   },
   githubURL: {
     type: String,
@@ -82,7 +83,7 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 
 userSchema.methods.generateJsonWebToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRES,
+    expiresIn: "1d"
   });
 };
 
